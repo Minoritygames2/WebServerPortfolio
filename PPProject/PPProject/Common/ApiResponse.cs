@@ -6,7 +6,6 @@
         {
             Success = 0,
             Error   = 1001,
-            DBError = 1002,
         }
 
         public ResultStatus Status { get; private set; }
@@ -24,13 +23,24 @@
             };
         }
 
-        public static ApiResponse<T> Error(int ErrorCode, string errorMessage)
+        public static ApiResponse<T> Error(int errorCode, string errorMessage)
         {
             return new ApiResponse<T>
             {
                 Status = ResultStatus.Error,
                 Data = default,
-                ErrorCode = ErrorCode,
+                ErrorCode = errorCode,
+                ErrorMessage = errorMessage
+            };
+        }
+
+        public static ApiResponse<T> Error(int errorCode, string errorMessage, T data)
+        {
+            return new ApiResponse<T>
+            {
+                Status = ResultStatus.Error,
+                Data = data,
+                ErrorCode = errorCode,
                 ErrorMessage = errorMessage
             };
         }

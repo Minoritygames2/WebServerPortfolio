@@ -12,6 +12,7 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddMysql(builder.Configuration);
+builder.Services.AddRedis(builder.Configuration);
 builder.Services.AddSnowflake();
 
 builder.Services.AddAuth();

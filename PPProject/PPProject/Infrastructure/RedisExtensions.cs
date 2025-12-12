@@ -7,9 +7,9 @@ namespace PPProject.Infrastructure
     {
         public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration config)
         {
-            var host = config["REDIS_HOST"];
-            var port = config["PORT"];
-            var password = config["PASSWORD"];
+            var host = Environment.GetEnvironmentVariable("REDIS_HOST");
+            var port = Environment.GetEnvironmentVariable("REDIS_PORT");
+            var password = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
 
             string conn;
             if (string.IsNullOrWhiteSpace(password))

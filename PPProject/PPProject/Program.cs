@@ -1,4 +1,5 @@
 using PPProject.Auth;
+using PPProject.Common.Session;
 using PPProject.Infrastructure;
 using PPProject.Middleware;
 
@@ -15,19 +16,21 @@ builder.Services.AddMysql(builder.Configuration);
 builder.Services.AddRedis(builder.Configuration);
 builder.Services.AddSnowflake();
 
+//common
+builder.Services.AddSingleton<RedisGameSessionStore>();
+
+//Controller
 builder.Services.AddAuth();
 
 var app = builder.Build();
 
 
+//MiddleWare
+app.UseMiddleware<GameSessionMiddleware>();
 if (app.Environment.IsDevelopment())
-{
     app.MapOpenApi();
-}
 else
-{
     app.UseMiddleware<PacketEncryptionMiddleware>();
-}
 
 app.UseHttpsRedirection();
 

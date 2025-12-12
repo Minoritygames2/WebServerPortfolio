@@ -2,6 +2,7 @@
 using PPProject.Auth.DTO.Request;
 using PPProject.Auth.DTO.Response;
 using PPProject.Auth.Factories;
+using PPProject.Auth.Service;
 using PPProject.Common;
 using PPProject.Filters;
 
@@ -13,9 +14,11 @@ namespace PPProject.Auth.Controllers
     public class AuthController : ControllerBase
     {
         private readonly LoginServiceFactory _loginServiceFactory;
-        public AuthController(LoginServiceFactory loginServiceFactory)
+        private readonly AuthService _authService;
+        public AuthController(LoginServiceFactory loginServiceFactory, AuthService authService)
         {
             _loginServiceFactory = loginServiceFactory;
+            _authService = authService;
         }
 
         [HttpPost("login")]
@@ -23,11 +26,15 @@ namespace PPProject.Auth.Controllers
         {
             try
             {
-                var service = _loginServiceFactory.GetService(request.PlatformCode);
-                var result = await service.LoginAsync(request.PlatformCode, request.UserCode);
+                var loginService = _loginServiceFactory.GetService(request.PlatformCode);
+                var result = await loginService.LoginAsync(request.PlatformCode, request.UserCode);
+                
+                //세션키 생성
+                var session = await _authService.CreateSession(result.UserId);
+                
                 var response = new LoginResponse
                 {
-                    Session = 0,
+                    Session = session,
                     UserId = result.UserId,
                     Status = result.Status
                 };
@@ -41,7 +48,12 @@ namespace PPProject.Auth.Controllers
             {
                 return ApiResponse<LoginResponse>.Error(5000, ex.Message);
             }
-            
+        }
+
+        [HttpPost("Ok")]
+        public async Task<ActionResult<ApiResponse<string>>> OK()
+        {
+            return ApiResponse<string>.Success("OK");
         }
     }
 }

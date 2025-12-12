@@ -11,11 +11,12 @@ namespace PPProject.Auth.Factories
             _serviceProvider = serviceProvider;
         }
 
-        public ILoginService GetService(int? platformCode)
+        public BaseLoginService GetService(int? platformCode)
         {
             return platformCode switch
             {
                 (int)PlatformType.Guest => _serviceProvider.GetRequiredService<GuestLoginService>(),
+                (int)PlatformType.Google => _serviceProvider.GetRequiredService<GoogleLoginService>(),
                 _ => throw new NotSupportedException($"Platform code Error :  {platformCode}")
             };
         }

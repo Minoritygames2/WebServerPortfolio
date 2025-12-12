@@ -10,7 +10,10 @@ namespace PPProject.Auth
         {
             services.AddTransient<GuestLoginService>();
             services.AddTransient<GoogleLoginService>();
+
             services.AddTransient<AuthService>();
+            services.AddTransient<GoogleAuthWindowService>();
+
             services.AddScoped<UserRepository>();
             services.AddScoped<LoginServiceFactory>();
             services.AddSingleton<OAuthSessionStore>();

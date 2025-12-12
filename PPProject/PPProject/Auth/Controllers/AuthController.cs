@@ -15,23 +15,27 @@ namespace PPProject.Auth.Controllers
     {
         private readonly LoginServiceFactory _loginServiceFactory;
         private readonly AuthService _authService;
-        public AuthController(LoginServiceFactory loginServiceFactory, AuthService authService)
+        private readonly GoogleAuthWindowService _windowService;
+        public AuthController(LoginServiceFactory loginServiceFactory
+            , AuthService authService
+            , GoogleAuthWindowService windowService)
         {
             _loginServiceFactory = loginServiceFactory;
             _authService = authService;
+            _windowService = windowService;
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<ApiResponse<LoginResponse>>> Login([FromBody]LoginRequest request)
+        public async Task<ActionResult<ApiResponse<LoginResponse>>> Login([FromBody] LoginRequest request)
         {
             try
             {
                 var loginService = _loginServiceFactory.GetService(request.PlatformCode);
                 var result = await loginService.LoginAsync(request.PlatformCode, request.UserCode);
-                
+
                 //세션키 생성
                 var session = await _authService.CreateSession(result.UserId);
-                
+
                 var response = new LoginResponse
                 {
                     Session = session,
@@ -54,6 +58,74 @@ namespace PPProject.Auth.Controllers
         public async Task<ActionResult<ApiResponse<string>>> OK()
         {
             return ApiResponse<string>.Success("OK");
+        }
+
+        [HttpGet("window/start")]
+        public async Task<ActionResult<ApiResponse<WindowAuthResponse>>> WindowAuthStart()
+        {
+            var sessionId = Guid.NewGuid().ToString();
+            var authUrl = _windowService.CreateWindowAuthUrl(sessionId);
+            var response = new WindowAuthResponse()
+            {
+                AuthUrl = authUrl,
+                SessionId = sessionId
+            };
+            return ApiResponse<WindowAuthResponse>.Success(response);
+        }
+
+        [HttpGet("window/callback")]
+        public async Task<ActionResult<ApiResponse<WindowAuthCallbackResponse>>> WindowAuthCallback(
+            [FromQuery] string state,
+            [FromQuery] string code)
+        {
+            try
+            {
+                var idToken = await _windowService.RequestOAuthTokenAsync(code);
+
+                if (string.IsNullOrEmpty(idToken))
+                    return ApiResponse<WindowAuthCallbackResponse>.Error(ErrorCode.GOOGLE_AUTH_VALIDATION_FAILED, "IdToken is null");
+
+                await _windowService.SaveAuthSession(state, idToken);
+
+                var response = new WindowAuthCallbackResponse()
+                {
+                    Token = idToken
+                };
+
+                return ApiResponse<WindowAuthCallbackResponse>.Success(response);
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse<WindowAuthCallbackResponse>.Error(5000, ex.Message);
+            }
+        }
+
+
+        [HttpGet("window/result")]
+        public async Task<ActionResult<ApiResponse<WindowAuthResultResponse>>> WindowAuthResult(
+            [FromQuery] string sessionId)
+        {
+            try
+            {
+                var isHasKey = await _windowService.HasAuthSession(sessionId);
+                var response = new WindowAuthResultResponse();
+                if (isHasKey)
+                {
+                    var idToken = await _windowService.GetAuthIdToken(sessionId);
+                    response.Status = 1;
+                    response.IdToken = idToken;
+                }
+                else
+                {
+                    response.Status = 0;
+                }
+
+                return ApiResponse<WindowAuthResultResponse>.Success(response);
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse<WindowAuthResultResponse>.Error(5000, ex.Message);
+            }
         }
     }
 }

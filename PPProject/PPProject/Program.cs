@@ -2,8 +2,12 @@ using PPProject.Auth;
 using PPProject.Common.Session;
 using PPProject.Infrastructure;
 using PPProject.Middleware;
+using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//.net이 멋대로 JWT 이름을 바꾸는 기능을 끈다
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 //.env 파일 로드
 DotNetEnv.Env.Load();

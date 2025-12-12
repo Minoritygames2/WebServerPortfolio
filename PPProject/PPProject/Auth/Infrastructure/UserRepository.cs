@@ -3,7 +3,7 @@ using IdGen;
 using MySqlConnector;
 using PPProject.Auth.Model;
 
-namespace PPProject.Auth.Interfaces
+namespace PPProject.Auth.Infrastructure
 {
     public class UserRepository
     {

@@ -1,5 +1,5 @@
 ﻿using PPProject.Auth.Factories;
-using PPProject.Auth.Interfaces;
+using PPProject.Auth.Infrastructure;
 using PPProject.Auth.Service;
 
 namespace PPProject.Auth
@@ -9,8 +9,11 @@ namespace PPProject.Auth
         public static IServiceCollection AddAuth(this IServiceCollection services)
         {
             services.AddTransient<GuestLoginService>();
+            services.AddTransient<GoogleLoginService>();
+            services.AddTransient<AuthService>();
             services.AddScoped<UserRepository>();
             services.AddScoped<LoginServiceFactory>();
+            services.AddSingleton<OAuthSessionStore>();
             return services;
         }
     }

@@ -1,6 +1,6 @@
 ﻿
 using PPProject.Auth.DTO;
-using PPProject.Auth.Interfaces;
+using PPProject.Auth.Infrastructure;
 
 namespace PPProject.Auth.Service
 {

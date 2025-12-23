@@ -11,24 +11,9 @@ namespace PPProject.Auth.Service
             _userRepository = userRepository;
         }
 
-        public virtual async Task<LoginResult> LoginAsync(int platformCode, string platformUserId)
-        {
-            //DB에 유저 정보가 있는지 확인하고, 존재한다면 유저 정보를 반환
-            var user = await _userRepository.GetByPlatformIdAsync(platformCode, platformUserId);
-            if (user != null)
-                return new LoginResult()
-                {
-                    UserId = user.uId,
-                    Status = user.Status
-                };
+        public abstract Task<string> VerifyPlatformItemtityAsync(string platformUserId);
+        
 
-            //유저를 생성
-            var newUser = await _userRepository.CreateAsync(platformCode, platformUserId);
-            return new LoginResult()
-            {
-                UserId = newUser.uId,
-                Status = newUser.Status
-            };
-        }
+        
     }
 }

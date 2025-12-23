@@ -8,5 +8,10 @@ namespace PPProject.Auth.Service
         {
             
         }
+
+        public override Task<string> VerifyPlatformItemtityAsync(string platformUserId)
+        {
+            return Task.FromResult(platformUserId);
+        }
     }
 }

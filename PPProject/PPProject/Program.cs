@@ -1,7 +1,10 @@
 using PPProject.Auth;
 using PPProject.Common.Session;
 using PPProject.Infrastructure;
+using PPProject.Infrastructure.Mysql;
 using PPProject.Middleware;
+using PPProject.Profile;
+using PPProject.Usecase;
 using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,9 +25,11 @@ builder.Services.AddSnowflake();
 
 //common
 builder.Services.AddSingleton<RedisGameSessionStore>();
+builder.Services.AddUsecases();
 
 //Controller
 builder.Services.AddAuth();
+builder.Services.AddProfile();
 
 var app = builder.Build();
 

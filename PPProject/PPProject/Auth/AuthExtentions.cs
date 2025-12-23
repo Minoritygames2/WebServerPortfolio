@@ -8,11 +8,11 @@ namespace PPProject.Auth
     {
         public static IServiceCollection AddAuth(this IServiceCollection services)
         {
-            services.AddTransient<GuestLoginService>();
-            services.AddTransient<GoogleLoginService>();
+            services.AddScoped<GuestLoginService>();
+            services.AddScoped<GoogleLoginService>();
 
-            services.AddTransient<AuthService>();
-            services.AddTransient<GoogleAuthWindowService>();
+            services.AddScoped<AuthService>();
+            services.AddScoped<GoogleAuthWindowService>();
 
             services.AddScoped<UserRepository>();
             services.AddScoped<LoginServiceFactory>();

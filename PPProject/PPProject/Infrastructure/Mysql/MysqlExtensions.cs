@@ -1,6 +1,6 @@
 ﻿using MySqlConnector;
 
-namespace PPProject.Infrastructure
+namespace PPProject.Infrastructure.Mysql
 {
     public static class MysqlExtensions
     {
@@ -16,6 +16,8 @@ namespace PPProject.Infrastructure
             service.AddScoped<MySqlConnection>(_ =>
                 new MySqlConnection(connectionString)
             );
+
+            service.AddScoped<MysqlSession>();
 
             return service;
         }

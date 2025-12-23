@@ -14,10 +14,9 @@ namespace PPProject.Auth.Service
             
         }
 
-        public override async Task<LoginResult> LoginAsync(int platformCode, string platformUserId)
+        public override async Task<string> VerifyPlatformItemtityAsync(string platformUserId)
         {
-            var sub = await GetSubGyJWT(platformUserId);
-            return await base.LoginAsync(platformCode, sub);
+            return await GetSubGyJWT(platformUserId);
         }
 
         private async Task<string> GetSubGyJWT(string idToken)

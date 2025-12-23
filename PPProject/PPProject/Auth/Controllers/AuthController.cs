@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using PPProject.Auth.DTO.Request;
 using PPProject.Auth.DTO.Response;
 using PPProject.Auth.Factories;
 using PPProject.Auth.Service;
 using PPProject.Common;
 using PPProject.Filters;
+using PPProject.Profile.Service;
+using PPProject.Usecase.CreateUser;
 
 namespace PPProject.Auth.Controllers
 {
@@ -16,13 +19,16 @@ namespace PPProject.Auth.Controllers
         private readonly LoginServiceFactory _loginServiceFactory;
         private readonly AuthService _authService;
         private readonly GoogleAuthWindowService _windowService;
+        private readonly CreateUserUseCase _createUserUseCase;
         public AuthController(LoginServiceFactory loginServiceFactory
             , AuthService authService
-            , GoogleAuthWindowService windowService)
+            , GoogleAuthWindowService windowService
+            , CreateUserUseCase createUserUseCase)
         {
             _loginServiceFactory = loginServiceFactory;
             _authService = authService;
             _windowService = windowService;
+            _createUserUseCase = createUserUseCase;
         }
 
         [HttpPost("login")]
@@ -30,8 +36,12 @@ namespace PPProject.Auth.Controllers
         {
             try
             {
+                //플랫폼별 인증
                 var loginService = _loginServiceFactory.GetService(request.PlatformCode);
-                var result = await loginService.LoginAsync(request.PlatformCode, request.UserCode);
+                var platformUserId = await loginService.VerifyPlatformItemtityAsync(request.UserCode);
+
+                //유저 생성 및 조회
+                var result = await _createUserUseCase.GetAndCreateUserAsync(request.PlatformCode, platformUserId);
 
                 //세션키 생성
                 var session = await _authService.CreateSession(result.UserId);

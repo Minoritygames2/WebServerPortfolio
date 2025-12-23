@@ -2,17 +2,18 @@
 using IdGen;
 using MySqlConnector;
 using PPProject.Auth.Model;
+using PPProject.Infrastructure.Mysql;
 
 namespace PPProject.Auth.Infrastructure
 {
     public class UserRepository
     {
-        private readonly MySqlConnection _conn;
+        private readonly MysqlSession _session;
         private readonly IdGenerator _idGenerator;
 
-        public UserRepository(MySqlConnection conn, IdGenerator idGenerator)
+        public UserRepository(MysqlSession session, IdGenerator idGenerator)
         {
-            _conn = conn;
+            _session = session;
             _idGenerator = idGenerator;
         }
 
@@ -33,11 +34,12 @@ namespace PPProject.Auth.Infrastructure
                     platformUserId = @platformUserId
                 LIMIT 1;";
 
-            return await _conn.QueryFirstOrDefaultAsync<User>(SQL, new
+            return await _session.Connection.QueryFirstOrDefaultAsync<User>(SQL, new
             {
                 platformCode,
                 platformUserId
-            });
+            },
+            transaction: _session.Transaction);
         }
 
         public async Task<User> CreateAsync(int platformCode, string platformUserId)
@@ -60,12 +62,13 @@ namespace PPProject.Auth.Infrastructure
                     NOW()
                 );";
 
-            await _conn.ExecuteAsync(SQL, new
+            await _session.Connection.ExecuteAsync(SQL, new
             {
                 uId,
                 platformCode,
                 platformUserId
-            });
+            },
+            transaction: _session.Transaction);
             return new User
             {
                 uId = uId,

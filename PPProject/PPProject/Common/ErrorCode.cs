@@ -18,5 +18,10 @@
         /// 지원하지 않는 플랫폼
         /// </summary>
         public const int NOT_SUPPORTED_PLATFORM = 20001;
+
+        /// <summary>
+        /// DB에러
+        /// </summary>
+        public const int DB_ERROR = 30001;
     }
 }

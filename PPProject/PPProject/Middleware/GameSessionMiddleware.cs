@@ -12,7 +12,7 @@ namespace PPProject.Middleware
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, RedisGameSessionStore sessionStore)
+        public async Task Invoke(HttpContext context, RedisGameSessionStore sessionStore)
         {
             //로그인 관련은 세션 검증하지않음
             var path = context.Request.Path.Value?.ToLower();

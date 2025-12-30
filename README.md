@@ -13,6 +13,9 @@ ASP.NET Core 기반의 게임 웹서버 포트폴리오 프로젝트입니다.
 ● 패킷 암호화/복호화
 - blog : (https://minoritygames2.tistory.com/27)
 
+● Response 파이프라인
+● [refactor: Response Pipeline 도입 : Response 이중캡처를 막기위함](https://github.com/Minoritygames2/WebServerPortfolio/commit/93ab162d73a53b2f3cfb2b3aacf4cdca5b51c61a)
+- blog : (https://minoritygames2.tistory.com/31)
 
 ### DB연결 
 #### Mysql
@@ -24,6 +27,11 @@ ASP.NET Core 기반의 게임 웹서버 포트폴리오 프로젝트입니다.
 
 ● [feat: Redis연결, SessionValidation](https://github.com/Minoritygames2/WebServerPortfolio/commit/40b9fd5c1c69e500efb7cdc10e6d397ac416fb66)
 - blog : (https://minoritygames2.tistory.com/28)
+
+### Log
+● [feat: Log 기능 추가](https://github.com/Minoritygames2/WebServerPortfolio/commit/47fde9bbb5c6523e27608217997a347af2cfa681)
+- blog : (https://minoritygames2.tistory.com/31)
+
 
 
 ## 유저 API (인증 및 계정 관리)

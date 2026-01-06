@@ -29,6 +29,12 @@
                        context.TraceIdentifier
                     );
 
+                //응답이 시작됐으면 아무것도 하지말것
+                if(context.Response.HasStarted)
+                    return;
+
+                //응답 초기화
+                context.Response.Clear();
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 context.Response.ContentType = "application/json";
 

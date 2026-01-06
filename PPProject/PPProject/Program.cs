@@ -5,6 +5,7 @@ using PPProject.Infrastructure.Mysql;
 using PPProject.Middleware;
 using PPProject.Middleware.Logger;
 using PPProject.Profile;
+using PPProject.Resource;
 using PPProject.Usecase;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -36,6 +37,7 @@ builder.Services.AddUsecases();
 //Controller
 builder.Services.AddAuth();
 builder.Services.AddProfile();
+builder.Services.AddResource();
 
 //Middleware DLµî·Ï
 builder.Services.AddScoped<IResponseHandler, ResponseEncryptionHandler>();
@@ -45,7 +47,14 @@ var app = builder.Build();
 
 
 //MiddleWare
-app.UseMiddleware<ExceptionLoggingMiddleware>();
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
+else
+{
+    app.UseMiddleware<ExceptionLoggingMiddleware>();
+}
 
 app.UseMiddleware<RequestDecryptionMiddleware>();
 app.UseMiddleware<RequestLoggingMiddleware>();
@@ -53,10 +62,7 @@ app.UseMiddleware<GameSessionMiddleware>();
 
 app.UseMiddleware<ResponsePipelineMiddleware>();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+
 
 
 app.UseHttpsRedirection();

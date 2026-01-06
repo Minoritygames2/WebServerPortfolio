@@ -1,5 +1,4 @@
-﻿using MySqlConnector;
-using Dapper;
+﻿using Dapper;
 using PPProject.Profile.Model;
 using PPProject.Infrastructure.Mysql;
 

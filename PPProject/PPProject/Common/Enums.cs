@@ -7,4 +7,11 @@
 
         Guest = 99
     }
+
+    public enum ResourceReasonCode
+    {
+        None = 0,
+        EARN = 1,
+        BUY = 2
+    }
 }

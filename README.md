@@ -48,6 +48,8 @@ ASP.NET Core 기반의 게임 웹서버 포트폴리오 프로젝트입니다.
 [feat: 유저 프로필 추가](https://github.com/Minoritygames2/WebServerPortfolio/commit/727c6021336d252279e12c45229ef7795d688c13)
 - blog : (https://minoritygames2.tistory.com/30)
 
-## 유저 재화
+
+
+### 유저 재화
 [feat: UserResource Service 추가](https://github.com/Minoritygames2/WebServerPortfolio/commit/e98933d4a4623c7e8af63b63d1df74c54501db31)
-https://minoritygames2.tistory.com/32
+- blog : https://minoritygames2.tistory.com/32

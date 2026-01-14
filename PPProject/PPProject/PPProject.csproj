@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Badge\Model\" />
-    <Folder Include="DailyMission\DTO\Request\" />
   </ItemGroup>
 
 </Project>

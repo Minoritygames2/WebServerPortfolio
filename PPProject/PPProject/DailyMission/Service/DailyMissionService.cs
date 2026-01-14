@@ -1,7 +1,6 @@
 ﻿using PPProject.DailyMission.DTO;
 using PPProject.DailyMission.Infrastructure.Mysql;
 using PPProject.DailyMission.Infrastructure.Redis;
-using System.Threading.Tasks;
 
 namespace PPProject.DailyMission.Service
 {
@@ -46,6 +45,20 @@ namespace PPProject.DailyMission.Service
                 });
             }
             return result;
+        }
+
+        public async Task ProgressDailyMission(long uId, int missionId, int addProgress)
+        {
+            var today = DateOnly.FromDateTime(DateTime.Now);
+            //데일리 미션 테이블
+            var storedMission = await _dailyMissionStore.GetStoreDailyMissionAsync(missionId);
+            if (storedMission == null)
+                return;
+            var addProgressResult = await _userRepository.AddProgressUserMissions(uId,
+                missionId,
+                today,
+                addProgress, 
+                storedMission.SuccessValue);
         }
     }
 }

@@ -49,5 +49,71 @@ namespace PPProject.DailyMission.Infrastructure.Mysql
                 return new List<UserDailyMission>();
             return result.ToList();
         }
+
+        public async Task<bool> AddProgressUserMissions(
+            long uId,
+            int missionId,
+            DateOnly date,
+            int addProgress,
+            int successValue
+            )
+        {
+            const string SQL = @"
+                INSERT INTO UserDailyMission (
+                    uId,
+                    mission_id,
+                    mission_date,
+                    progress,
+                    is_success,
+                    completed_time,
+                    receive_reward,
+                    receive_time,
+                    created_time,
+                    update_time
+                )
+                VALUES (
+                    @uId,
+                    @missionId,
+                    @missionDate,
+                    0,
+                    0,
+                    NULL,
+                    0,
+                    NULL,
+                    NOW(),
+                    NOW()
+                )
+                ON DUPLICATE KEY UPDATE
+                    progress = CASE
+                        WHEN is_success = 1 THEN progress
+                        ELSE progress + @addProgress
+                END,
+                is_success = CASE
+                    WHEN is_success = 1 THEN is_success
+                    WHEN progress + @addProgress >= @successValue THEN 1
+                    ELSE 0
+                END,
+                completed_time = CASE
+                    WHEN completed_time IS NOT NULL THEN completed_time
+                    WHEN (is_success = 0 AND progress + @addProgress >= @successValue)
+                        THEN NOW()
+                    ELSE NULL
+                END,
+                update_time = NOW()
+            ";
+
+            var affectedRows = await _session.Connection.ExecuteAsync(SQL,
+                new
+                {
+                    uId = uId,
+                    missionId = missionId,
+                    missionDate = date,
+                    addProgress = addProgress,
+                    successValue = successValue
+                },
+                transaction: _session.Transaction);
+
+            return affectedRows > 0;
+        }
     }
 }

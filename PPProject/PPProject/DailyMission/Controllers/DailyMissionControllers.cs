@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PPProject.Common;
 using PPProject.Common.Web;
+using PPProject.DailyMission.DTO.Request;
 using PPProject.DailyMission.DTO.Response;
 using PPProject.DailyMission.Service;
 using PPProject.Filters;
@@ -33,5 +34,6 @@ namespace PPProject.DailyMission.Controllers
                 return ApiResponse<GetDailyMissionResponse>.Error(500, ex.Message);
             }
         }
+
     }
 }

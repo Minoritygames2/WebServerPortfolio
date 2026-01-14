@@ -1,5 +1,6 @@
 using Dapper;
 using PPProject.Auth;
+using PPProject.Common.InGame;
 using PPProject.Common.Session;
 using PPProject.DailyMission;
 using PPProject.Infrastructure;
@@ -38,6 +39,9 @@ builder.Services.AddSnowflake();
 builder.Services.AddSingleton<RedisGameSessionStore>();
 builder.Services.AddUsecases();
 
+//Dispatcher
+builder.Services.AddSingleton<UserActivityDispatcher>();
+
 //Controller
 builder.Services.AddAuth();
 builder.Services.AddProfile();
@@ -49,6 +53,7 @@ builder.Services.AddScoped<IResponseHandler, ResponseEncryptionHandler>();
 builder.Services.AddScoped<IResponseHandler, ResponseLoggingHandler>();
 
 var app = builder.Build();
+
 
 
 //MiddleWare

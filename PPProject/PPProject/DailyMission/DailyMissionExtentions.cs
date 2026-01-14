@@ -12,6 +12,8 @@ namespace PPProject.DailyMission
 
             services.AddScoped<DailyMissionStore>();
             services.AddScoped<UserDailyMissionRepository>();
+
+            services.AddHostedService<DailyMissionStartup>();
             return services;
         }
     }

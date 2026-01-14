@@ -24,5 +24,14 @@ namespace PPProject.DailyMission.Infrastructure.Redis
                 .Select(x => JsonSerializer.Deserialize<DailyMissionCache>(x.Value.ToString()!)!)
                 .ToList();
         }
+
+        public async Task<DailyMissionCache?> GetStoreDailyMissionAsync(int missionId)
+        {
+            var result = await _db.HashGetAsync(Key, missionId);
+            if (result.IsNullOrEmpty)
+                return null;
+
+            return JsonSerializer.Deserialize<DailyMissionCache>(result.ToString());
+        }
     }
 }

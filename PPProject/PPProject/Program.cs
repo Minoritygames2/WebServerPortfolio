@@ -1,7 +1,11 @@
+using Dapper;
 using PPProject.Auth;
+using PPProject.Common.InGame;
 using PPProject.Common.Session;
+using PPProject.DailyMission;
 using PPProject.Infrastructure;
 using PPProject.Infrastructure.Mysql;
+using PPProject.Infrastructure.Mysql.Handler;
 using PPProject.Middleware;
 using PPProject.Middleware.Logger;
 using PPProject.Profile;
@@ -30,20 +34,26 @@ builder.Services.AddMysql(builder.Configuration);
 builder.Services.AddRedis(builder.Configuration);
 builder.Services.AddSnowflake();
 
+
 //common
 builder.Services.AddSingleton<RedisGameSessionStore>();
 builder.Services.AddUsecases();
+
+//Dispatcher
+builder.Services.AddSingleton<UserActivityDispatcher>();
 
 //Controller
 builder.Services.AddAuth();
 builder.Services.AddProfile();
 builder.Services.AddResource();
+builder.Services.AddDailyMission();
 
 //Middleware DLµî·Ï
 builder.Services.AddScoped<IResponseHandler, ResponseEncryptionHandler>();
 builder.Services.AddScoped<IResponseHandler, ResponseLoggingHandler>();
 
 var app = builder.Build();
+
 
 
 //MiddleWare

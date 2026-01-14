@@ -21,15 +21,15 @@ namespace PPProject.DailyMission.Infrastructure.Mysql
                 SELECT
                     Id,
                     uId,
-                    mission_id,
-                    mission_date,
-                    progress,
-                    is_success,
-                    completed_time,
-                    receive_reward,
-                    receive_time,
-                    created_time,
-                    update_time
+                    mission_id AS MissionId,
+                    mission_date AS MissionDate,
+                    progress AS Progress,
+                    is_success AS IsSuccess,
+                    completed_time AS CompletedTime,
+                    receive_reward AS ReceiveReward,
+                    receive_time AS ReceiveTime,
+                    created_time AS CreatedTime,
+                    update_time AS UpdateTime
                 FROM
                     UserDailyMission
                 WHERE

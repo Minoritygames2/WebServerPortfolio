@@ -8,6 +8,7 @@ namespace PPProject.DailyMission.DTO
         public int MissionType { get; set; }
         public int SuccessValue { get; set; }
         public bool IsSuccess { get; set; }
+        public bool ReceivedReward { get; set; }
     }
 
     public class DailyMissionCache

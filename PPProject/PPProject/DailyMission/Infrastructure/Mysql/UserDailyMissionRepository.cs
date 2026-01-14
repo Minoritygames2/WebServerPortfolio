@@ -26,6 +26,8 @@ namespace PPProject.DailyMission.Infrastructure.Mysql
                     progress,
                     is_success,
                     completed_time,
+                    receive_reward,
+                    receive_time,
                     created_time,
                     update_time
                 FROM

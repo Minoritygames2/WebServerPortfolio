@@ -41,7 +41,8 @@ namespace PPProject.DailyMission.Service
                     MissionId = storedMission.Id,
                     MissionType = storedMission.MissionType,
                     IsSuccess = userMission?.IsSuccess ?? false,
-                    SuccessValue = userMission?.Progress ?? 0
+                    SuccessValue = userMission?.Progress ?? 0,
+                    ReceivedReward = userMission?.ReceiveReward ?? false
                 });
             }
             return result;

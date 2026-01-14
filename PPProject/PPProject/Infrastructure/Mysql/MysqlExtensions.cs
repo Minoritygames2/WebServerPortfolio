@@ -1,4 +1,6 @@
-﻿using MySqlConnector;
+﻿using Dapper;
+using MySqlConnector;
+using PPProject.Infrastructure.Mysql.Handler;
 
 namespace PPProject.Infrastructure.Mysql
 {
@@ -18,6 +20,9 @@ namespace PPProject.Infrastructure.Mysql
             );
 
             service.AddScoped<MysqlSession>();
+
+            //Handler 등록
+            SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
 
             return service;
         }

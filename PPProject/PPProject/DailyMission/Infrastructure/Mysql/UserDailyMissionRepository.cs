@@ -95,7 +95,7 @@ namespace PPProject.DailyMission.Infrastructure.Mysql
                 END,
                 completed_time = CASE
                     WHEN completed_time IS NOT NULL THEN completed_time
-                    WHEN (is_success = 0 AND progress + @addProgress >= @successValue)
+                    WHEN is_success = 1
                         THEN NOW()
                     ELSE NULL
                 END,

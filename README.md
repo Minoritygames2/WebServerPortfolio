@@ -21,6 +21,7 @@ ASP.NET Core 기반의 게임 웹서버 포트폴리오 프로젝트입니다.
 #### Mysql
 ● [feat: MySql연결, 게스트 로그인 추가](https://github.com/Minoritygames2/WebServerPortfolio/commit/cc1d88e413bbf173423cda085e1cee8a80cf9188)
 - blog : (https://minoritygames2.tistory.com/25)
+
 ● [feat: DateOnly 파서 생성](https://github.com/Minoritygames2/WebServerPortfolio/commit/4cac1aed0e84e72a684b37322f033c674bd3a343)
 - blog : (https://minoritygames2.tistory.com/34)
 
@@ -63,9 +64,15 @@ ASP.NET Core 기반의 게임 웹서버 포트폴리오 프로젝트입니다.
 
 ### 유저 데일리 미션
 - blog : (https://minoritygames2.tistory.com/33)
+
+  
 #### Daily Mission Get
 ● [feat: DailyMission Get 추가](https://github.com/Minoritygames2/WebServerPortfolio/commit/ec5f364a7eec26efcef6cadf6f8b42054f169c65)
+
 ● [refactor: UserDailyMission Get안되던 버그 수정](https://github.com/Minoritygames2/WebServerPortfolio/commit/53b786ea063f9179344daba4b238eb140a6bfa60)
+
+
 #### Daily Mission Progress
 ● [feat: 미션 Progress 업데이트 추가](https://github.com/Minoritygames2/WebServerPortfolio/commit/20388dcea450cccc585475721e924d7c21c0004a)
+
 ● [refactor: completed_time 갱신안되던 버그 수정](https://github.com/Minoritygames2/WebServerPortfolio/commit/b5d4de420a958b65d5a48d3c4d97d840031688cf)
